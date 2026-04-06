@@ -1,0 +1,64 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "UKEY Giris";
+}
+
+<section class="login-shell">
+    <div class="login-card animate-up">
+        <div class="login-card-head">
+            <div class="ukey-brand" style="display: flex; align-items: center; gap: 16px;">
+                <img
+                    class="ukey-logo"
+                    src="/images/buu-logo.png"
+                    style="width: 56px; height: 56px;"
+                    alt="BUU Logo" />
+                <div>
+                    <strong style="font-size: 2.2rem; display: block; color: var(--navy-900);">Edunexus</strong>
+                    <span style="font-size: 0.9rem; color: var(--slate-500); font-weight: 500;">Bursa Uludağ Üniversitesi</span>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <h1 style="font-size: 1.25rem; color: var(--navy-900); margin-bottom: 4px;">Kullanıcı Girişi</h1>
+                <span class="chip" style="font-size: 0.7rem;">Güvenli Erişim</span>
+            </div>
+        </div>
+
+        <div class="login-content">
+            <div class="login-info" style="display: flex; flex-direction: column; gap: 12px;">
+                <span class="eyebrow" style="margin-bottom: 8px;">Duyurular</span>
+                <a href="/">Güncel Duyurular ve Haberler</a>
+                <a href="/">Edunexus Kullanma Kılavuzu</a>
+                <a href="/">E-Sınav Kullanma Kılavuzu</a>
+                <a href="/">Yeni Sınav Sistemi Hakkında Bilgi</a>
+                <a href="/">Bilgilendirme Toplantısı Kayıtları</a>
+            </div>
+
+            <div class="login-form-wrap">
+                <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
+                    @Html.AntiForgeryToken()
+                    <label for="username">Kullanıcı No / T.C.</label>
+                    <input asp-for="UserCode" id="username" placeholder="Örn: 032110001" />
+                    <label for="password">Şifre</label>
+                    <input asp-for="Password" id="password" type="password" placeholder="Şifre" />
+
+                    <div class="login-types">
+                        <label><input asp-for="UserType" type="radio" value="Ogrenci" checked /> Öğrenci</label>
+                        <label><input asp-for="UserType" type="radio" value="Idari" /> İdari/Akademik</label>
+                        <label><input asp-for="UserType" type="radio" value="Misafir" /> Misafir</label>
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+                    {
+                        <div class="login-error">@Model.ErrorMessage</div>
+                    }
+
+                    <button type="submit" class="button-cta">Giriş Yap</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-footer">
+        Bursa Uludağ Üniversitesi Bilgi İşlem Daire Başkanlığı
+    </div>
+</section>

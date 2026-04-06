@@ -1,0 +1,398 @@
+@model HomeDashboardViewModel
+@using Unisis.Web.Extensions
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var currentUser = Context.Session.GetCurrentUser();
+    var currentUserLabel = string.IsNullOrWhiteSpace(currentUser?.FullName)
+        ? "Aktif kullanici"
+        : currentUser.FullName;
+    var firebaseProjectId = Configuration["FirebaseClient:ProjectId"] ?? string.Empty;
+    var firebaseApiKey = Configuration["FirebaseClient:ApiKey"] ?? string.Empty;
+    var firebaseAuthDomain = Configuration["FirebaseClient:AuthDomain"] ?? string.Empty;
+    var firebaseStorageBucket = Configuration["FirebaseClient:StorageBucket"] ?? string.Empty;
+    var firebaseMessagingSenderId = Configuration["FirebaseClient:MessagingSenderId"] ?? string.Empty;
+    var firebaseAppId = Configuration["FirebaseClient:AppId"] ?? string.Empty;
+    var firebaseMeasurementId = Configuration["FirebaseClient:MeasurementId"] ?? string.Empty;
+}
+
+<section class="hero-bento animate-up" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 80px; align-items: center; padding: 100px 0;">
+    <div class="hero-text">
+        <span class="chip" style="background: var(--primary-soft); color: var(--primary); padding: 8px 20px; font-weight: 700; font-size: 0.75rem; margin-bottom: 32px; display: inline-flex; align-items: center; gap: 8px; border-radius: 99px;">
+            <i class="bi bi-stars"></i> BURSA ULUDAĞ ÜNİVERSİTESİ DİJİTAL KAMPÜS
+        </span>
+        <h1 class="hero-title" style="font-size: 5rem; margin-bottom: 32px; line-height: 1.05;">
+            Edunexus:<br />
+            <span style="color: var(--primary);">Modern Üniversite Deneyimi</span>
+        </h1>
+        <p style="font-size: 1.25rem; color: var(--slate-500); margin-bottom: 48px; max-width: 580px; line-height: 1.6;">
+            Öğrenci talepleri, akademisyen müsaitlikleri ve kampüs sorunlarını tek platformda yönetin. Yapay zeka asistan ile hızlı yönlendirme.
+        </p>
+        <div style="display: flex; gap: 16px;">
+            <a class="button-link" asp-controller="Home" asp-action="Student" style="padding: 16px 36px; border-radius: 99px; font-weight: 700;">
+                Öğrenci İşlemlerine Git <i class="bi bi-arrow-right" style="margin-left: 8px;"></i>
+            </a>
+            <a class="button-link secondary" asp-controller="Home" asp-action="Academician" style="padding: 16px 36px; border-radius: 99px; font-weight: 700; background: white; border: 1px solid var(--slate-200); color: var(--primary);">
+                Akademisyen Paneli
+            </a>
+        </div>
+    </div>
+
+    <div class="timeline-card" style="padding: 48px; border-radius: 32px; box-shadow: 0 40px 100px -20px rgba(0,0,0,0.1);">
+        <div class="timeline-header" style="margin-bottom: 32px;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="width: 44px; height: 44px; background: #3b82f6; border-radius: 12px; color: white; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-bell-fill" style="font-size: 1.25rem;"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Haftalık Akademik Takvim</h3>
+                    <span style="font-size: 0.8rem; color: var(--slate-500); font-weight: 500;">@currentUserLabel • İnegöl İşletme Fakültesi</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-list" style="display: flex; flex-direction: column; gap: 16px;">
+            @{
+                var items = new[] {
+                    new { Date = "6 NISAN", Title = "Ders Secimi Son Gunu", Desc = "Planli etkinlik yok" },
+                    new { Date = "8 NISAN", Title = "Kariyer Zirvesi 2026", Desc = "09:00 - 17:00" },
+                    new { Date = "9 NISAN", Title = "Vize mazeret basvurulari", Desc = "Son tarih" },
+                    new { Date = "10 NISAN", Title = "Girisimcilik merkezi acilisi", Desc = "Acilis: 14:00" }
+                };
+            }
+            @foreach (var item in items)
+            {
+                <div style="display: flex; align-items: center; gap: 20px; padding: 20px; background: white; border: 1px solid var(--slate-100); border-radius: 16px;">
+                    <div style="width: 68px; padding: 12px 0; background: var(--slate-50); border: 1px solid var(--slate-100); border-radius: 8px; text-align: center;">
+                        <span style="font-size: 0.65rem; font-weight: 800; color: var(--slate-400);">@item.Date</span>
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 800; font-size: 0.95rem; color: var(--navy-900);">@item.Title</div>
+                        <div style="font-size: 0.8rem; color: var(--slate-400); margin-top: 2px;">@item.Desc</div>
+                    </div>
+                    <i class="bi bi-chevron-right" style="color: var(--slate-300);"></i>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="animate-up" style="animation-delay: 0.2s; margin-bottom: 120px;">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;">
+        <a class="overview-card panel" asp-controller="Home" asp-action="Student" style="text-decoration: none; display: block; padding: 48px;">
+            <div class="hoca-avatar" style="margin-bottom: 32px; width: 44px; height: 44px; font-size: 1rem;"><i class="bi bi-calendar3"></i></div>
+            <i class="bi bi-calendar3" style="font-size: 1.5rem; color: var(--primary); display: block; margin-bottom: 24px;"></i>
+            <h2 style="font-size: 1.5rem; color: var(--slate-900); margin-bottom: 16px;">Öğrenci İşlemleri</h2>
+            <p style="color: var(--slate-500); line-height: 1.6;">Arıza bildirimi, mazeret talebi ve kampüs girişi tek platformda yönetin.</p>
+        </a>
+        <a class="overview-card panel" asp-controller="Home" asp-action="Academician" style="text-decoration: none; display: block; padding: 48px;">
+            <div class="hoca-avatar" style="margin-bottom: 32px; width: 44px; height: 44px; font-size: 1rem;"><i class="bi bi-card-list"></i></div>
+            <i class="bi bi-card-list" style="font-size: 1.5rem; color: var(--primary); display: block; margin-bottom: 24px;"></i>
+            <h2 style="font-size: 1.5rem; color: var(--slate-900); margin-bottom: 16px;">Akademisyen Paneli</h2>
+            <p style="color: var(--slate-500); line-height: 1.6;">Müsaitlik saatleri, ofis görüşmeleri ve öğrenci yönlendirmeleri düzenlenir.</p>
+        </a>
+        <a class="overview-card panel" asp-controller="Home" asp-action="Assistant" style="text-decoration: none; display: block; padding: 48px;">
+            <div class="hoca-avatar" style="margin-bottom: 32px; width: 44px; height: 44px; font-size: 1rem;"><i class="bi bi-people"></i></div>
+            <i class="bi bi-people" style="font-size: 1.5rem; color: var(--primary); display: block; margin-bottom: 24px;"></i>
+            <h2 style="font-size: 1.5rem; color: var(--slate-900); margin-bottom: 16px;">AI Asistan</h2>
+            <p style="color: var(--slate-500); line-height: 1.6;">Öğrenciler süreçler hakkında soru sorar, sistem hızlı ve güvenli cevap üretir.</p>
+        </a>
+    </div>
+</section>
+
+<section class="news-section animate-up" style="animation-delay: 0.3s;">
+    <div class="campus-grid">
+        <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; gap: 16px; flex-wrap: wrap;">
+                <h2 style="font-size: 2.25rem; font-weight: 800; color: var(--navy-900);">Kampüsten Haberler<br /><span style="font-size: 1rem; color: var(--slate-500); font-weight: 500;">Fakülte ve kampüs yaşamından öne çıkan gelişmeler</span></h2>
+                <a class="button-link secondary" href="/" style="font-size: 0.9rem; padding: 12px 24px;">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+            </div>
+
+            <div class="campus-news-list">
+                @{
+                    var newsItems = new[] {
+                        new { Tag = "ETKINLIK", Title = "Kampus Bahar Senligi icin geri sayim basladi", Desc = "Muzik dinletileri, ogrenci kulubu stantlari ve acik hava etkinlikleri bu hafta merkez cim alanda basliyor.", Color = "var(--primary)" },
+                        new { Tag = "KUTUPHANE", Title = "Merkez kutuphane gece 23.00'e kadar acik", Desc = "Vize haftasi boyunca calisma salonlari uzatilmis saatlerle hizmet verecek, sessiz alan rezervasyonu sistemden yapilabilecek.", Color = "#10b981" },
+                        new { Tag = "ULASIM", Title = "Ring seferlerine yeni durak eklendi", Desc = "Yurtlar bolgesi ile fakulte girisini baglayan kampus ici ring hattina yeni duraklar ve siklastirilmis sefer plani tanimlandi.", Color = "#6366f1" },
+                        new { Tag = "SOSYAL YASAM", Title = "Kariyer merkezi mentor bulusmalarini baslatti", Desc = "Ogrenciler mezun mentorlarla birebir gorusme planlayarak staj ve kariyer yolculuklari icin destek alabilecek.", Color = "#f59e0b" }
+                    };
+                }
+                @foreach (var news in newsItems)
+                {
+                    <article class="panel" style="padding: 32px; display: flex; flex-direction: column; gap: 16px; cursor: pointer; transition: all 0.2s ease; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <span class="chip" style="background: @(news.Color)10; color: @(news.Color); font-size: 0.65rem; border: none;">@news.Tag</span>
+                            <i class="bi bi-arrow-right" style="color: var(--slate-300);"></i>
+                        </div>
+                        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">@news.Title</h3>
+                        <p style="color: var(--slate-500); font-size: 0.95rem; line-height: 1.5;">@news.Desc</p>
+                    </article>
+                }
+            </div>
+        </div>
+
+        <aside class="panel campus-chat-panel">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
+                <div>
+                    <span class="chip" style="background: rgba(79, 70, 229, 0.12); color: var(--primary); border: none; margin-bottom: 12px;">SOHBET</span>
+                    <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--navy-900); margin-bottom: 8px;">Kampüs Sohbeti</h3>
+                    <p style="color: var(--slate-500); line-height: 1.6; margin: 0;">Mesajlar gerçek zamanlı görünür. Haberlerin yanında kampüs odasına anında yazabilirsiniz.</p>
+                </div>
+                <span id="campusChatStatus" style="font-size: 0.8rem; color: var(--slate-400); white-space: nowrap;">Bağlanıyor...</span>
+            </div>
+
+            <div id="campusChatMessages" class="campus-chat-messages">
+                <div class="campus-chat-empty">Henüz mesaj yok. İlk mesajı sen gönder.</div>
+            </div>
+
+            <form id="campusChatForm" class="campus-chat-form">
+                <input id="campusChatInput" type="text" maxlength="300" placeholder="Kampüs grubuna bir mesaj yaz" />
+                <button type="submit" class="button-link" style="border: none;">Gönder</button>
+            </form>
+        </aside>
+    </div>
+</section>
+
+@section Styles {
+    <style>
+        .campus-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.85fr);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .campus-news-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .campus-chat-panel {
+            padding: 28px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .campus-chat-messages {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 420px;
+            max-height: 520px;
+            overflow-y: auto;
+            padding: 4px 2px 12px;
+            margin-bottom: 20px;
+        }
+
+        .campus-chat-empty {
+            color: var(--slate-400);
+            background: var(--slate-50);
+            border: 1px dashed var(--slate-200);
+            border-radius: 16px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .campus-chat-message {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: var(--slate-50);
+            border: 1px solid var(--slate-100);
+        }
+
+        .campus-chat-message.mine {
+            background: rgba(79, 70, 229, 0.08);
+            border-color: rgba(79, 70, 229, 0.18);
+        }
+
+        .campus-chat-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 0.78rem;
+            color: var(--slate-400);
+        }
+
+        .campus-chat-text {
+            color: var(--navy-900);
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .campus-chat-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .campus-chat-form input {
+            width: 100%;
+            border: 1px solid var(--slate-200);
+            border-radius: 14px;
+            padding: 14px 16px;
+            font: inherit;
+            background: white;
+        }
+
+        .campus-chat-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+        }
+
+        @@media (max-width: 1100px) {
+            .campus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .campus-chat-panel {
+                position: static;
+            }
+        }
+
+        @@media (max-width: 720px) {
+            .campus-news-list {
+                grid-template-columns: 1fr;
+            }
+
+            .campus-chat-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script>
+        (() => {
+            const statusEl = document.getElementById("campusChatStatus");
+            const messagesEl = document.getElementById("campusChatMessages");
+            const inputEl = document.getElementById("campusChatInput");
+            const formEl = document.getElementById("campusChatForm");
+            const firebaseConfig = {
+                apiKey: "@firebaseApiKey",
+                authDomain: "@firebaseAuthDomain",
+                projectId: "@firebaseProjectId",
+                storageBucket: "@firebaseStorageBucket",
+                messagingSenderId: "@firebaseMessagingSenderId",
+                appId: "@firebaseAppId",
+                measurementId: "@firebaseMeasurementId"
+            };
+
+            if (!messagesEl || !formEl || !inputEl || !statusEl) {
+                return;
+            }
+
+            if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+                statusEl.textContent = "Yapilandirma eksik";
+                messagesEl.innerHTML = '<div class="campus-chat-empty">Firebase ayarlari bulunamadi.</div>';
+                return;
+            }
+
+            if (!window.firebase) {
+                statusEl.textContent = "Baglanti hatasi";
+                messagesEl.innerHTML = '<div class="campus-chat-empty">Sohbet servisi yuklenemedi.</div>';
+                return;
+            }
+
+            const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(firebaseConfig);
+            const db = app.firestore();
+            const chatRoom = "genel";
+            const senderId = "@(currentUser?.StudentNumber ?? "misafir")";
+            const senderName = "@(currentUser?.FullName ?? "Misafir Kullanici")";
+
+            function escapeHtml(value) {
+                return String(value ?? "")
+                    .replaceAll("&", "&amp;")
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll("\"", "&quot;")
+                    .replaceAll("'", "&#39;");
+            }
+
+            function formatTime(timestamp) {
+                if (!timestamp || !timestamp.toDate) {
+                    return "Simdi";
+                }
+
+                return timestamp.toDate().toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                });
+            }
+
+            function renderMessages(messages) {
+                if (!messages.length) {
+                    messagesEl.innerHTML = '<div class="campus-chat-empty">Henuz mesaj yok. Ilk mesaji sen gonder.</div>';
+                    return;
+                }
+
+                messagesEl.innerHTML = messages.map(message => {
+                    const isMine = message.senderId === senderId;
+                    return `
+                        <article class="campus-chat-message ${isMine ? "mine" : ""}">
+                            <div class="campus-chat-meta">
+                                <strong>${escapeHtml(message.senderName || "Kullanici")}</strong>
+                                <span>${formatTime(message.timestamp)}</span>
+                            </div>
+                            <div class="campus-chat-text">${escapeHtml(message.text || "")}</div>
+                        </article>
+                    `;
+                }).join("");
+
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
+
+            async function sendMessage(text) {
+                if (!text) {
+                    return;
+                }
+
+                await db.collection("chat").doc(chatRoom).collection("messages").add({
+                    senderId,
+                    senderName,
+                    text,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            formEl.addEventListener("submit", async event => {
+                event.preventDefault();
+                const text = inputEl.value.trim();
+                if (!text) {
+                    return;
+                }
+
+                inputEl.value = "";
+                inputEl.disabled = true;
+
+                try {
+                    await sendMessage(text);
+                } catch (error) {
+                    console.error("Mesaj gonderilemedi", error);
+                    statusEl.textContent = "Mesaj gonderilemedi";
+                } finally {
+                    inputEl.disabled = false;
+                    inputEl.focus();
+                }
+            });
+
+            db.collection("chat").doc(chatRoom).collection("messages")
+                .orderBy("timestamp")
+                .onSnapshot(snapshot => {
+                    const messages = [];
+                    snapshot.forEach(doc => messages.push(doc.data()));
+                    renderMessages(messages);
+                    statusEl.textContent = "Canli";
+                }, error => {
+                    console.error("Mesajlar alinamadi", error);
+                    statusEl.textContent = "Baglanti kesildi";
+                    messagesEl.innerHTML = '<div class="campus-chat-empty">Mesajlar yuklenirken bir hata olustu.</div>';
+                });
+        })();
+    </script>
+}

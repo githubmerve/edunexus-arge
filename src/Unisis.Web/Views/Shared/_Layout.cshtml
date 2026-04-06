@@ -1,0 +1,155 @@
+@using Unisis.Web.Extensions
+@{
+    var currentUser = Context.Session.GetCurrentUser();
+    var isLoginPage = ViewContext.RouteData.Values["controller"]?.ToString() == "Account";
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UniSis Entegre</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @if (!isLoginPage)
+    {
+        <div class="top-strip">
+            <span>Bursa Uludağ Üniversitesi İnegöl İşletme Fakültesi</span>
+            <span>2026 Bahar Dönemi</span>
+        </div>
+
+        <header class="site-header">
+            <div class="brand" style="display: flex; align-items: center; gap: 16px;">
+                <img src="/images/buu-logo.png" style="width: 44px; height: 44px; object-fit: contain;" alt="BUU Logo" />
+                <div>
+                    <strong style="font-size: 1.25rem; display: block; color: var(--navy-900);">Edunexus</strong>
+                    <div style="font-size: 0.75rem; color: var(--slate-500); font-weight: 500;">Bursa Uludağ Üniversitesi</div>
+                </div>
+            </div>
+
+            <nav class="main-nav">
+                <a asp-controller="Home" asp-action="Index" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
+                    <i class="bi bi-file-earmark-text"></i> Ana Sayfa
+                </a>
+                <a asp-controller="Home" asp-action="Academician" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Academician" ? "active" : "")">
+                    <i class="bi bi-calendar3"></i> Akademisyen Takvimi
+                </a>
+                <a asp-controller="Home" asp-action="Student" class="@(ViewContext.RouteData.Values["Action"]?.ToString() == "Student" ? "active" : "")">
+                    <i class="bi bi-people"></i> Öğrenci İşlemleri
+                </a>
+            </nav>
+
+            <div class="user-pill" onclick="toggleProfileMenu()" style="display: inline-flex; align-items: center; flex-direction: row; gap: 12px;">
+                <div class="user-avatar" style="background: #4f46e5; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0;">
+                    <i class="bi bi-person" style="font-size: 1.1rem; color: white;"></i>
+                </div>
+                <div class="user-info" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; line-height: 1.15; min-width: 0; flex: 1;">
+                    <strong style="display: block; margin: 0 0 2px 0;">@(currentUser?.FullName ?? "Misafir Kullanici")</strong>
+                    <span style="display: block;">@(currentUser?.StudentNumber ?? "-")</span>
+                </div>
+            </div>
+
+            <div class="profile-dropdown" id="profileDropdown">
+                <a asp-controller="Home" asp-action="Student">Profil İşlemleri</a>
+                <form asp-controller="Account" asp-action="Logout" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="dropdown-logout" style="border: none; background: none; cursor: pointer; text-align: left; width: 100%; border-radius: 8px;">Çıkış Yap</button>
+                </form>
+            </div>
+        </header>
+    }
+
+    <main class="page-shell">
+        @RenderBody()
+    </main>
+
+    @if (!isLoginPage)
+    {
+        <footer class="main-footer" style="margin-top: auto; padding: 32px 0; border-top: 1px solid var(--slate-100); color: var(--slate-500); font-size: 0.9rem; text-align: center;">
+            <p>&copy; @DateTime.Now.Year Edunexus - Bursa Uludağ Üniversitesi İnegöl İşletme Fakültesi</p>
+            <p style="opacity: 0.7; font-size: 0.8rem;">Tüm hakları saklıdır.</p>
+        </footer>
+
+        <button type="button" class="chat-fab" onclick="toggleChatWidget()">
+            <span class="chat-fab-icon">?</span>
+            <span>AI Asistan</span>
+        </button>
+
+        <aside class="chat-widget" id="chatWidget">
+            <div class="chat-widget-head">
+                <div>
+                    <strong style="display: block; font-size: 1.1rem;">AI Kampüs Asistanı</strong>
+                    <div style="font-size: 0.8rem; opacity: 0.8;">Süreçler ve yönlendirmeler için yardım</div>
+                </div>
+                <button type="button" class="chat-close" onclick="toggleChatWidget()" style="background: rgba(255,255,255,0.1); border: none; color: white; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Kapat</button>
+            </div>
+            <div class="chat-widget-body" id="chatMessages">
+            </div>
+            <form class="chat-widget-form" onsubmit="sendChatMessage(event)">
+                <input id="chatInput" type="text" placeholder="Sorunuzu yazin" />
+                <button type="submit">Gonder</button>
+            </form>
+            <div class="chat-widget-actions">
+                <a asp-controller="Home" asp-action="Assistant" onclick="window.UnisisAssistant.clearConversation()">Yeni Sohbet</a>
+            </div>
+        </aside>
+    }
+
+    <script src="~/js/assistant.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        function toggleProfileMenu() {
+            const menu = document.getElementById("profileDropdown");
+            if (menu) {
+                menu.classList.toggle("open");
+            }
+        }
+
+        function toggleChatWidget() {
+            const widget = document.getElementById("chatWidget");
+            if (widget) {
+                widget.classList.toggle("open");
+            }
+        }
+
+        function sendChatMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById("chatInput");
+            const messages = document.getElementById("chatMessages");
+            if (!input || !messages || !input.value.trim()) {
+                return;
+            }
+
+            const userText = input.value.trim();
+            window.UnisisAssistant.sendMessage(userText, messages);
+            input.value = "";
+        }
+
+        document.addEventListener("click", event => {
+            const dropdown = document.getElementById("profileDropdown");
+            const toggle = document.querySelector(".profile-toggle");
+            if (!dropdown || !toggle) {
+                return;
+            }
+
+            if (!dropdown.contains(event.target) && !toggle.contains(event.target)) {
+                dropdown.classList.remove("open");
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const messages = document.getElementById("chatMessages");
+            if (messages && window.UnisisAssistant) {
+                window.UnisisAssistant.renderHistory(messages);
+            }
+        });
+    </script>
+</body>
+</html>

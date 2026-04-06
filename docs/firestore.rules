@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || hasRole('admin');
+      allow write: if hasRole('admin');
+    }
+
+    match /issueReports/{reportId} {
+      allow create: if hasRole('student');
+      allow read: if hasRole('admin') || hasRole('academician') || hasRole('student');
+      allow update: if hasRole('admin');
+    }
+
+    match /excuseRequests/{requestId} {
+      allow create: if hasRole('student');
+      allow read: if hasRole('admin') || hasRole('academician') || hasRole('student');
+      allow update: if hasRole('admin') || hasRole('academician');
+    }
+
+    match /availabilitySlots/{slotId} {
+      allow read: if isSignedIn();
+      allow create, update: if hasRole('academician') || hasRole('admin');
+    }
+
+    match /qrLoginSessions/{sessionId} {
+      allow read, write: if hasRole('admin');
+    }
+
+    match /aiConversations/{conversationId} {
+      allow read, create: if isSignedIn();
+      allow update: if hasRole('admin');
+    }
+
+    match /auditLogs/{logId} {
+      allow read, write: if hasRole('admin');
+    }
+  }
+}

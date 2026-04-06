@@ -1,0 +1,72 @@
+@model HomeDashboardViewModel
+
+<section class="subpage-hero animate-up">
+    <div>
+        <span class="eyebrow">AI Asistan</span>
+        <h1>Öğrencilerin sorularına hızlı, bağlama uygun ve güvenli yanıtlar verin.</h1>
+        <p class="hero-copy">
+            Kampüs süreçleri, mazeret adımları, akademik yönlendirmeler ve temel destek soruları için
+            role-aware bir asistan deneyimi sunulabilir.
+        </p>
+    </div>
+    <div class="mini-profile accent">
+        <strong>Örnek Soru</strong>
+        <span>Mazeret belgemi nereye yüklemeliyim?</span>
+        <span>Yanıtlar sunucu tarafında filtrelenir.</span>
+    </div>
+</section>
+
+<section class="assistant-layout animate-up" style="animation-delay: 0.1s;">
+    <article class="panel">
+        <div class="panel-head">
+            <h2>Sohbet Penceresi</h2>
+            <span class="chip blue">Canlı Destek</span>
+        </div>
+        <div class="panel-body">
+            <p class="muted">Süreç bazlı soruları ve genel bilgilendirmeleri buradan koordine edin.</p>
+        </div>
+        <form id="assistantForm" class="card-block form-compact">
+            <input name="userId" value="@Model.SampleStudent.UniversityId" placeholder="Kullanıcı ID" />
+            <input name="userRole" value="Student" placeholder="Rol" />
+            <textarea name="message" placeholder="Sorunuzu yazın">Yönetim Bilişim Sistemleri ile İşletme arasındaki fark nedir?</textarea>
+            <button type="submit">Sor</button>
+        </form>
+        <div class="assistant-hints">
+            <span>YBS hangi alanlara yonelir?</span>
+            <span>Isletme mezunlari nerelerde calisabilir?</span>
+            <span>Uluslararasi Ticaret ile Isletme arasindaki fark ne?</span>
+        </div>
+    </article>
+
+    <article class="panel">
+        <div class="panel-head">
+            <h2>Asistan Yanit Alani</h2>
+            <div class="assistant-actions">
+                <button type="button" class="button-link secondary assistant-reset" onclick="startNewAssistantChat()">Yeni Sohbet</button>
+                <span class="chip">Baglamli cikti</span>
+            </div>
+        </div>
+        <div id="assistantAnswer" class="result-box result-large"></div>
+    </article>
+</section>
+
+<script>
+    const assistantForm = document.getElementById("assistantForm");
+    const assistantAnswer = document.getElementById("assistantAnswer");
+
+    function renderAssistantHistory() {
+        window.UnisisAssistant.renderHistory(assistantAnswer);
+    }
+
+    function startNewAssistantChat() {
+        window.UnisisAssistant.startNewChat(assistantAnswer);
+    }
+
+    assistantForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const payload = Object.fromEntries(new FormData(assistantForm).entries());
+        window.UnisisAssistant.sendMessage(payload.message, assistantAnswer);
+    });
+
+    renderAssistantHistory();
+</script>

@@ -1,0 +1,89 @@
+@model HomeDashboardViewModel
+
+<div style="padding: 40px 0;">
+    <span class="chip" style="background: #eff6ff; color: var(--primary); padding: 8px 16px; font-weight: 700; font-size: 0.75rem; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 8px; border-radius: 99px;">
+        <i class="bi bi-calendar3-event"></i> AKADEMİSYEN TAKVİMİ
+    </span>
+    <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--navy-900); margin-bottom: 24px; letter-spacing: -0.01em;">Akademisyen Müsaitlik Takvimi</h1>
+    <p style="font-size: 1.15rem; color: var(--slate-500); margin-bottom: 64px; max-width: 800px; line-height: 1.5;">
+        Akademik danışmanlık, ofis görüşmeleri ve projeler için hocalarımızın müsait olduğu saatleri planlayın.
+    </p>
+</div>
+
+<section class="animate-up" style="display: flex; flex-direction: column; gap: 24px;">
+    @{
+        var academicians = new[]
+        {
+            new { Name = "Prof. Dr. Melih ENGİN", Initials = "ME", Title = "İşletme Bölüm Başkanı", Location = "A Blok 302" },
+            new { Name = "Doç. Dr. Erdal ÖZDOĞAN", Initials = "EÖ", Title = "Yönetim Bilişim Sistemleri", Location = "B Blok 105" },
+            new { Name = "Doç. Dr. Fatih GÜRSES", Initials = "FG", Title = "Uluslararası Ticaret", Location = "C Blok 201" },
+            new { Name = "Arş. Gör. Yasin ERDURAN", Initials = "YE", Title = "Araştırma Görevlisi", Location = "A Blok 112" },
+            new { Name = "Arş. Gör. Eda SÖNMEZ", Initials = "ES", Title = "Araştırma Görevlisi", Location = "B Blok 214" }
+        };
+
+        var days = new[] { "SALI", "CUMA", "PAZARTESİ", "PERŞEMBE", "ÇARŞAMBA" };
+        var random = new Random();
+    }
+
+    @foreach (var prof in academicians)
+    {
+        <article class="hoca-row" style="background: white; border-radius: 24px; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px; border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; gap: 24px; min-width: 300px;">
+                <div class="hoca-avatar" style="width: 56px; height: 56px; border-radius: 12px; background: #3b82f6; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem;">@prof.Initials</div>
+                <div>
+                    <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">@prof.Name</h2>
+                    <div style="font-size: 0.85rem; color: var(--slate-500); font-weight: 500;">@prof.Title</div>
+                    <div style="font-size: 0.8rem; color: var(--slate-400); margin-top: 6px; display: flex; align-items: center; gap: 6px;">
+                        <i class="bi bi-geo-alt"></i> @prof.Location
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; flex: 1; justify-content: center;">
+                @{
+                    int slotCount = (prof.Initials == "ES") ? 3 : random.Next(2, 4);
+                    for(int i=0; i < slotCount; i++)
+                    {
+                        var day = days[random.Next(days.Length)];
+                        var hour = random.Next(9, 15);
+                        <div class="slot-mini">
+                            <div class="day-tag">
+                                <span class="day">@day</span>
+                            </div>
+                            <div class="type">Ofis Görüşmesi</div>
+                            <div class="time"><i class="bi bi-clock"></i> @hour:00 - @(hour+1):00</div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <button class="button-link" style="padding: 12px 28px; font-size: 0.9rem; font-weight: 700; border-radius: 12px; display: flex; align-items: center; gap: 8px;">Haftalık <i class="bi bi-chevron-right"></i></button>
+        </article>
+    }
+</section>
+
+<div class="animate-up" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; margin-bottom: 80px;">
+    <div style="background: white; border-radius: 24px; padding: 32px; border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);">
+        <div style="width: 48px; height: 48px; background: #eff6ff; border-radius: 12px; color: #2563eb; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <i class="bi bi-person-fill" style="font-size: 1.25rem;"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">5</div>
+        <div style="font-size: 0.9rem; color: var(--slate-500); font-weight: 500;">Toplam Akademisyen</div>
+    </div>
+
+    <div style="background: white; border-radius: 24px; padding: 32px; border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);">
+        <div style="width: 48px; height: 48px; background: #f5f3ff; border-radius: 12px; color: #7c3aed; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <i class="bi bi-calendar-check-fill" style="font-size: 1.25rem;"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">14</div>
+        <div style="font-size: 0.9rem; color: var(--slate-500); font-weight: 500;">Haftalık Müsaitlik</div>
+    </div>
+
+    <div style="background: white; border-radius: 24px; padding: 32px; border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);">
+        <div style="width: 48px; height: 48px; background: #f0fdfa; border-radius: 12px; color: #0d9488; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            <i class="bi bi-clock-fill" style="font-size: 1.25rem;"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 800; color: var(--navy-900); margin-bottom: 4px;">1 saat</div>
+        <div style="font-size: 0.9rem; color: var(--slate-500); font-weight: 500;">Ortalama Süre</div>
+    </div>
+</div>

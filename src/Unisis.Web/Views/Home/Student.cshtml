@@ -1,0 +1,515 @@
+@using Unisis.Web.Extensions
+@{
+    var currentUser = Context.Session.GetCurrentUser();
+    var userInitials = string.Join(
+        "",
+        (currentUser?.FullName ?? "Misafir Kullanıcı")
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Take(2)
+            .Select(part => char.ToUpperInvariant(part[0])));
+    var studentClass = currentUser?.StudentNumber switch
+    {
+        "132230015" => "4. Sınıf",
+        "132530038" => "1. Sınıf",
+        "132530025" => "1. Sınıf",
+        "132430002" => "2. Sınıf",
+        _ => "Sınıf bilgisi yok"
+    };
+    var studentGano = currentUser?.StudentNumber switch
+    {
+        "132230015" => "3.37",
+        "132530038" => "3.80",
+        "132530025" => "3.15",
+        "132430002" => "3.24",
+        _ => "-"
+    };
+    var studentAkts = currentUser?.StudentNumber switch
+    {
+        "132230015" => "223 AKTS",
+        "132530038" => "30 AKTS",
+        "132530025" => "30 AKTS",
+        "132430002" => "106 AKTS",
+        _ => "-"
+    };
+}
+
+<div style="padding: 40px 0;">
+    <span class="chip" style="background: #eff6ff; color: var(--primary); padding: 8px 20px; font-weight: 700; font-size: 0.75rem; margin-bottom: 24px; display: inline-flex; align-items: center; gap: 8px; border-radius: 99px;">
+        <i class="bi bi-file-earmark-text"></i> ÖĞRENCİ İŞLEMLERİ
+    </span>
+    <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--navy-900); margin-bottom: 32px; letter-spacing: -0.02em;">Dijital kampüs süreçlerinizi<br/>buradan yönetin.</h1>
+
+    <div class="panel" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 16px 24px; margin-bottom: 64px; background: white; border: 1px solid var(--slate-100); border-radius: 16px; flex-wrap: wrap;">
+        <div style="display: inline-flex; align-items: center; gap: 20px;">
+            <div class="user-avatar" style="width: 48px; height: 48px; border-radius: 12px; background: #3b82f6; font-size: 1.1rem; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800;">@userInitials</div>
+            <div>
+                <strong style="display: block; font-size: 1rem; color: var(--slate-900);">@(currentUser?.FullName ?? "Misafir Kullanıcı")</strong>
+                <span style="font-size: 0.8rem; color: var(--slate-500);">İnegöl İşletme Fakültesi @(currentUser?.StudentNumber ?? "-")</span>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="min-width: 120px; padding: 12px 16px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 14px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.04em;">Sınıf</div>
+                <div style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-top: 4px;">@studentClass</div>
+            </div>
+            <div style="min-width: 120px; padding: 12px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #15803d; text-transform: uppercase; letter-spacing: 0.04em;">GANO</div>
+                <div style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-top: 4px;">@studentGano</div>
+            </div>
+            <div style="min-width: 140px; padding: 12px 16px; background: #fff7ed; border: 1px solid #fdba74; border-radius: 14px;">
+                <div style="font-size: 0.7rem; font-weight: 800; color: #ea580c; text-transform: uppercase; letter-spacing: 0.04em;">Toplam AKTS</div>
+                <div style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-top: 4px;">@studentAkts</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="animate-up" style="display: grid; grid-template-columns: 380px 1fr; gap: 48px; align-items: flex-start;">
+        <!-- LEFT: Vertical Calendar -->
+        <aside class="timeline-card" style="padding: 40px; border-radius: 32px; background: white; border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);">
+            <div class="timeline-header" style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900);">Haftalık Akademik Takvim</h3>
+                <i class="bi bi-calendar3" style="color: var(--slate-400);"></i>
+            </div>
+
+            <div class="timeline-list" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="timeline-item active" style="border: 1px solid rgba(37, 99, 235, 0.1); border-radius: 16px; background: #eff6ff; padding: 16px; display: flex; gap: 16px; position: relative;">
+                    <div class="timeline-dot" style="width: 6px; height: 6px; background: var(--primary); border-radius: 50%; margin-top: 6px;"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" style="color: var(--primary); font-weight: 800; font-size: 0.65rem;">6 NİSAN</div>
+                        <div class="timeline-title" style="font-weight: 800; font-size: 0.95rem; margin: 4px 0; color: var(--navy-900);">Ders Seçimi Son Günü</div>
+                        <div class="timeline-desc" style="font-size: 0.75rem; color: var(--slate-400);">Planlı Etkinlik Yok</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="border: 1px solid var(--slate-50); border-radius: 16px; padding: 16px; display: flex; gap: 16px; position: relative;">
+                    <div class="timeline-dot" style="width: 6px; height: 6px; background: var(--slate-200); border-radius: 50%; margin-top: 6px;"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" style="color: var(--slate-400); font-weight: 800; font-size: 0.65rem;">8 NİSAN</div>
+                        <div class="timeline-title" style="font-weight: 800; font-size: 0.95rem; margin: 4px 0; color: var(--navy-900);">Kariyer Zirvesi 2026</div>
+                        <div class="timeline-desc" style="font-size: 0.75rem; color: var(--slate-400);">Planlı Etkinlik Yok</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" style="border: 1px solid var(--slate-50); border-radius: 16px; padding: 16px; display: flex; gap: 16px; position: relative;">
+                    <div class="timeline-dot" style="width: 6px; height: 6px; background: var(--slate-200); border-radius: 50%; margin-top: 6px;"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" style="color: var(--slate-400); font-weight: 800; font-size: 0.65rem;">9 NİSAN</div>
+                        <div class="timeline-title" style="font-weight: 800; font-size: 0.95rem; margin: 4px 0; color: var(--navy-900);">Vize Mazeret Başvuruları</div>
+                        <div class="timeline-desc" style="font-size: 0.75rem; color: var(--slate-400);">Son Tarih</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item" style="border: 1px solid var(--slate-50); border-radius: 16px; padding: 16px; display: flex; gap: 16px; position: relative;">
+                    <div class="timeline-dot" style="width: 6px; height: 6px; background: var(--slate-200); border-radius: 50%; margin-top: 6px;"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date" style="color: var(--slate-400); font-weight: 800; font-size: 0.65rem;">10 NİSAN</div>
+                        <div class="timeline-title" style="font-weight: 800; font-size: 0.95rem; margin: 4px 0; color: var(--navy-900);">Planlı Etkinlik Yok</div>
+                        <div class="timeline-desc" style="font-size: 0.75rem; color: var(--slate-400);">Serbest Gün</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="button-link secondary" style="width: 100%; margin-top: 32px; border-radius: 16px; padding: 18px; font-weight: 700; background: var(--slate-50); color: var(--slate-600); border: none; cursor: pointer;">Bu Hafta</button>
+        </aside>
+
+        <!-- RIGHT: Tabbed Operations -->
+        <main>
+            <nav class="tab-nav" style="display: flex; gap: 12px; margin-bottom: 24px;">
+                <button class="tab-btn active" data-tab="ariza" style="flex: 1; justify-content: center; padding: 16px; border-radius: 16px; border: none; background: #2563eb; color: white; cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-exclamation-circle-fill"></i> Arıza Bildirimi <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; margin-left: 8px;">Teknik Destek</span>
+                </button>
+                <button class="tab-btn" data-tab="mazeret" style="flex: 1; justify-content: center; padding: 16px; border-radius: 16px; border: 1px solid var(--slate-100); background: white; color: var(--slate-500); cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-file-earmark-text"></i> Mazeret Bildirimi <span style="background: var(--slate-50); padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; margin-left: 8px;">Akademik</span>
+                </button>
+                <button class="tab-btn" data-tab="qr" style="flex: 1; justify-content: center; padding: 16px; border-radius: 16px; border: 1px solid var(--slate-100); background: white; color: var(--slate-500); cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+                    <i class="bi bi-qr-code-scan"></i> QR Giriş <span style="background: var(--slate-50); padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700; margin-left: 8px;">15 sn aktif</span>
+                </button>
+            </nav>
+
+            <div id="arizaTab" class="tab-content active">
+                <div class="panel" style="padding: 48px; border-radius: 32px; border: 1px solid var(--slate-100); background: white; box-shadow: var(--shadow-sm);">
+                    <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-900); margin-bottom: 12px;">Arıza Bildirimi</h2>
+                    <p style="color: var(--slate-500); margin-bottom: 40px; font-size: 0.95rem;">Kampüs içindeki teknik sorunları (aydınlatma, klima, mobilya vb.) buradan bildirebilirsiniz.</p>
+                    
+                    <form id="issueForm" style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Arıza Türü</label>
+                            <select name="category" required style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; color: var(--slate-900); font-weight: 500;">
+                                <option value="">Seçiniz</option>
+                                <option value="Elektrik">Elektrik / Aydınlatma</option>
+                                <option value="Mekanik">Mekanik / Klima</option>
+                                <option value="Marangoz">Mobilya / Marangoz</option>
+                                <option value="Diger">Diğer</option>
+                            </select>
+                            <div style="margin-top: 24px;">
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Dersin Akademisyeni</label>
+                                <select name="academician" required style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; color: var(--slate-900); font-weight: 500;">
+                                    <option value="">Seçiniz</option>
+                                    <option value="Prof. Dr. Melih Engin">Prof. Dr. Melih Engin</option>
+                                    <option value="Doç. Dr. Erdal Özdoğan">Doç. Dr. Erdal Özdoğan</option>
+                                    <option value="Doç. Dr. Fatih Gürses">Doç. Dr. Fatih Gürses</option>
+                                    <option value="Arş. Gör. Yasin Erduran">Arş. Gör. Yasin Erduran</option>
+                                    <option value="Arş. Gör. Eda Sönmez">Arş. Gör. Eda Sönmez</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Detaylı Açıklama</label>
+                            <textarea name="description" placeholder="Arıza hakkında detaylı bilgi verin..." rows="4" style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; font-family: inherit; font-size: 0.95rem;"></textarea>
+                        </div>
+                        <button type="submit" style="width: 100%; justify-content: center; padding: 22px; border-radius: 16px; background: #2563eb; color: white; border: none; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                            <i class="bi bi-send-fill"></i> Gönder
+                        </button>
+                    </form>
+
+                    <div id="issueList" style="margin-top: 48px; display: flex; flex-direction: column; gap: 16px;">
+                        <!-- Items will appear here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="mazeretTab" class="tab-content" style="display: none;">
+                <div class="panel" style="padding: 48px; border-radius: 32px; border: 1px solid var(--slate-100); background: white; box-shadow: var(--shadow-sm);">
+                    <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-900); margin-bottom: 12px;">Mazeret Bildirimi</h2>
+                    <p style="color: var(--slate-500); margin-bottom: 40px; font-size: 0.95rem;">Sağlık raporu veya diğer mazeret belgelerinizi yükleyerek başvuru yapabilirsiniz.</p>
+                    
+                    <form id="excuseForm" style="display: flex; flex-direction: column; gap: 24px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Mazeret Konusu</label>
+                            <select name="excuseType" required style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; color: var(--slate-900); font-weight: 500;">
+                                <option value="">Seçiniz</option>
+                                <option value="Saglik">Sağlık Raporu</option>
+                                <option value="Aile">Ailevi Nedenler</option>
+                                <option value="Diger">Diğer</option>
+                            </select>
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Dersin Akademisyeni</label>
+                                <select name="academician" required style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; color: var(--slate-900); font-weight: 500;">
+                                    <option value="">Seçiniz</option>
+                                    <option value="Prof. Dr. Melih Engin">Prof. Dr. Melih Engin</option>
+                                    <option value="Doç. Dr. Erdal Özdoğan">Doç. Dr. Erdal Özdoğan</option>
+                                    <option value="Doç. Dr. Fatih Gürses">Doç. Dr. Fatih Gürses</option>
+                                    <option value="Arş. Gör. Yasin Erduran">Arş. Gör. Yasin Erduran</option>
+                                    <option value="Arş. Gör. Eda Sönmez">Arş. Gör. Eda Sönmez</option>
+                                </select>
+                        </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Başlangıç Tarihi</label>
+                                <input name="startDateUtc" type="date" required style="width: 100%; padding: 18px; background: #f8fafc; border: 1px solid var(--slate-200); border-radius: 16px;" />
+                            </div>
+                            <div>
+                                <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Bitiş Tarihi</label>
+                                <input name="endDateUtc" type="date" required style="width: 100%; padding: 18px; background: #f8fafc; border: 1px solid var(--slate-200); border-radius: 16px;" />
+                            </div>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Detaylı Açıklama</label>
+                            <textarea name="description" placeholder="Mazeret durumunuz hakkında açıklama..." rows="4" style="width: 100%; padding: 18px; border-radius: 16px; border: 1px solid var(--slate-200); background: #f8fafc; font-family: inherit; font-size: 0.95rem;"></textarea>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; color: var(--slate-700);">Belge Yükle</label>
+                            <input id="excuseDocument" name="document" type="file" accept=".pdf,.jpg,.jpeg,.png" style="width: 100%; padding: 16px 18px; border-radius: 16px; border: 1px dashed var(--slate-300); background: #f8fafc; font-family: inherit; font-size: 0.95rem;" />
+                            <div id="excuseDocumentName" style="margin-top: 10px; font-size: 0.8rem; color: var(--slate-500);">Henüz belge seçilmedi.</div>
+                        </div>
+                        <button type="submit" style="width: 100%; justify-content: center; padding: 22px; border-radius: 16px; background: #2563eb; color: white; border: none; font-weight: 700; font-size: 1.05rem; display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                            <i class="bi bi-send-fill"></i> Başvuruyu Tamamla
+                        </button>
+                    </form>
+                    <div id="excuseList" style="margin-top: 48px; display: flex; flex-direction: column; gap: 16px;"></div>
+                </div>
+            </div>
+
+            <div id="qrTab" class="tab-content" style="display: none;">
+                <div class="panel" style="padding: 48px; border-radius: 32px; border: 1px solid var(--slate-100); background: white; box-shadow: var(--shadow-sm);">
+                    <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--navy-900); margin-bottom: 12px;">QR Giriş</h2>
+                    <p style="color: var(--slate-500); margin-bottom: 40px; font-size: 0.95rem;">Fiziksel kartınız yanınızda değilse QR kod ile geçiş yapabilirsiniz.</p>
+                    
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 32px;">
+                        <div id="qrResult" style="width: 240px; height: 240px; background: var(--slate-50); border-radius: var(--radius-lg); border: 2px dashed var(--slate-200); display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-qr-code" style="font-size: 4rem; color: var(--slate-300);"></i>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 16px;">
+                            <button id="generateQrBtn" style="padding: 16px 48px; border-radius: 16px; border: none; background: #2563eb; color: white; font-weight: 700; cursor: pointer;">QR Üret</button>
+                            <div id="qrTimer" style="font-weight: 800; color: var(--primary); font-size: 1.5rem; display: none;">15 sn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    const tabBtns = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const target = btn.dataset.tab;
+            
+            tabBtns.forEach(b => {
+                b.classList.remove("active");
+                b.style.background = "white";
+                b.style.color = "var(--slate-500)";
+                b.style.border = "1px solid var(--slate-100)";
+            });
+            
+            tabContents.forEach(c => c.style.display = "none");
+            
+            btn.classList.add("active");
+            btn.style.background = "#2563eb";
+            btn.style.color = "white";
+            btn.style.border = "none";
+            document.getElementById(target + "Tab").style.display = "block";
+        });
+    });
+
+    const issueForm = document.getElementById("issueForm");
+    const excuseForm = document.getElementById("excuseForm");
+    const generateQrBtn = document.getElementById("generateQrBtn");
+    const qrResult = document.getElementById("qrResult");
+    const issueList = document.getElementById("issueList");
+    const excuseList = document.getElementById("excuseList");
+    const excuseDocument = document.getElementById("excuseDocument");
+    const excuseDocumentName = document.getElementById("excuseDocumentName");
+    let centerNoticeTimer;
+
+    if (issueForm) {
+        const issueAcademician = issueForm.querySelector('select[name="academician"]');
+        if (issueAcademician) {
+            const wrapper = issueAcademician.parentElement;
+            if (wrapper) {
+                wrapper.remove();
+            }
+        }
+
+        const firstRow = issueForm.firstElementChild;
+        if (firstRow) {
+            firstRow.style.display = "block";
+        }
+    }
+
+    function showCenterNotice(message) {
+        let overlay = document.getElementById("centerNoticeOverlay");
+        let text = document.getElementById("centerNoticeText");
+
+        if (!overlay) {
+            overlay = document.createElement("div");
+            overlay.id = "centerNoticeOverlay";
+            overlay.style.position = "fixed";
+            overlay.style.inset = "0";
+            overlay.style.display = "none";
+            overlay.style.alignItems = "center";
+            overlay.style.justifyContent = "center";
+            overlay.style.background = "rgba(15, 23, 42, 0.22)";
+            overlay.style.zIndex = "3000";
+            overlay.style.padding = "24px";
+
+            const card = document.createElement("div");
+            card.style.minWidth = "320px";
+            card.style.maxWidth = "460px";
+            card.style.background = "white";
+            card.style.borderRadius = "24px";
+            card.style.boxShadow = "0 24px 60px rgba(15, 23, 42, 0.18)";
+            card.style.padding = "28px 26px";
+            card.style.textAlign = "center";
+            card.style.border = "1px solid var(--slate-100)";
+
+            const iconWrap = document.createElement("div");
+            iconWrap.style.width = "56px";
+            iconWrap.style.height = "56px";
+            iconWrap.style.margin = "0 auto 16px";
+            iconWrap.style.borderRadius = "50%";
+            iconWrap.style.background = "#eff6ff";
+            iconWrap.style.color = "#2563eb";
+            iconWrap.style.display = "flex";
+            iconWrap.style.alignItems = "center";
+            iconWrap.style.justifyContent = "center";
+            iconWrap.innerHTML = '<i class="bi bi-check2-circle" style="font-size: 1.5rem;"></i>';
+
+            text = document.createElement("div");
+            text.id = "centerNoticeText";
+            text.style.fontSize = "1.05rem";
+            text.style.fontWeight = "700";
+            text.style.color = "var(--navy-900)";
+
+            card.appendChild(iconWrap);
+            card.appendChild(text);
+            overlay.appendChild(card);
+            document.body.appendChild(overlay);
+        }
+
+        text.textContent = message;
+        overlay.style.display = "flex";
+        clearTimeout(centerNoticeTimer);
+        centerNoticeTimer = setTimeout(() => {
+            overlay.style.display = "none";
+        }, 1800);
+    }
+
+    const originalAlert = window.alert.bind(window);
+    window.alert = message => {
+        const normalized = String(message || "");
+        if (normalized.includes("Ar")) {
+            showCenterNotice("Ariza kaydi alinmistir.");
+            return;
+        }
+
+        if (normalized.includes("Mazeret")) {
+            showCenterNotice("Mazeret bildirimi tamamlandi.");
+            return;
+        }
+
+        showCenterNotice(normalized || "Islem tamamlandi.");
+    };
+
+    const excuseSubmitButton = excuseForm ? excuseForm.querySelector('button[type="submit"]') : null;
+    if (excuseSubmitButton) {
+        excuseSubmitButton.innerHTML = '<i class="bi bi-send-fill"></i> Tamamla';
+    }
+
+    function getItems(key) {
+        return JSON.parse(localStorage.getItem(key) || "[]");
+    }
+
+    function setItems(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function renderItems() {
+        const issues = getItems("issueReports");
+        const excuses = getItems("excuseRequests");
+
+        issueList.innerHTML = issues.map(item => `
+            <div style="background: #eff6ff; padding: 24px; border-radius: 16px; border: 1px solid #bfdbfe; display: flex; align-items: flex-start; gap: 16px;">
+                <i class="bi bi-info-circle-fill" style="color: var(--primary); font-size: 1.1rem; margin-top: 2px;"></i>
+                <div style="flex: 1;">
+                    <strong style="color: var(--navy-900); display: block; margin-bottom: 4px; font-weight: 700;">${item.category || 'Arıza Raporu'}</strong>
+                    <p style="font-size: 0.85rem; color: var(--slate-500); margin: 0;">${item.description}</p>
+                    <span style="font-size: 0.75rem; color: var(--slate-400); display: block; margin-top: 8px;">Kayıt Tarihi: ${item.createdAt}</span>
+                </div>
+            </div>
+        `).join("");
+
+        if (issues.length === 0) {
+            issueList.innerHTML = `
+                <div style="background: #fffbeb; padding: 20px; border-radius: 16px; border: 1px solid #fde68a; display: flex; align-items: center; gap: 12px; color: #92400e;">
+                    <i class="bi bi-clock-history"></i>
+                    <span style="font-size: 0.9rem; font-weight: 500;">Henüz bekleyen bir arıza kaydı bulunmuyor.</span>
+                </div>`;
+        }
+
+        excuseList.innerHTML = excuses.map(item => `
+            <div style="background: #f0fdf4; padding: 24px; border-radius: 16px; border: 1px solid #bbf7d0; display: flex; align-items: flex-start; gap: 16px;">
+                <i class="bi bi-check-circle-fill" style="color: #16a34a; font-size: 1.1rem; margin-top: 2px;"></i>
+                <div style="flex: 1;">
+                    <strong style="color: #166534; display: block; margin-bottom: 4px; font-weight: 700;">${item.excuseType === 'Saglik' ? 'Sağlık Raporu' : item.excuseType}</strong>
+                    <p style="font-size: 0.85rem; color: #166534; opacity: 0.8; margin: 0;">${item.description}</p>
+                    ${item.documentName ? `<span style="font-size: 0.75rem; color: #166534; opacity: 0.75; display: block; margin-top: 8px;">Belge: ${item.documentName}</span>` : ""}
+                    <span style="font-size: 0.75rem; color: #166534; opacity: 0.6; display: block; margin-top: 8px;">Başvuru Tarihi: ${item.createdAt}</span>
+                </div>
+            </div>
+        `).join("");
+
+        if (excuses.length === 0) {
+            excuseList.innerHTML = `
+                <div style="background: #fffbeb; padding: 20px; border-radius: 16px; border: 1px solid #fde68a; display: flex; align-items: center; gap: 12px; color: #92400e;">
+                    <i class="bi bi-clock-history"></i>
+                    <span style="font-size: 0.9rem; font-weight: 500;">Henüz mazeret kaydı yok. Başvuru sonuçları burada görünecektir.</span>
+                </div>`;
+        }
+    }
+
+    issueForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const payload = Object.fromEntries(new FormData(issueForm).entries());
+        const items = getItems("issueReports");
+        items.unshift({
+            ...payload,
+            id: crypto.randomUUID(),
+            createdAt: new Date().toLocaleString("tr-TR")
+        });
+        setItems("issueReports", items);
+        renderItems();
+        alert("Arıza kaydı eklendi.");
+    });
+
+    if (excuseDocument && excuseDocumentName) {
+        excuseDocument.addEventListener("change", () => {
+            const fileName = excuseDocument.files && excuseDocument.files.length
+                ? excuseDocument.files[0].name
+                : "Henüz belge seçilmedi.";
+            excuseDocumentName.textContent = fileName;
+        });
+    }
+
+    excuseForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const payload = Object.fromEntries(new FormData(excuseForm).entries());
+        const selectedDocumentName = excuseDocument && excuseDocument.files && excuseDocument.files.length
+            ? excuseDocument.files[0].name
+            : "";
+        const items = getItems("excuseRequests");
+        items.unshift({
+            ...payload,
+            documentName: selectedDocumentName,
+            id: crypto.randomUUID(),
+            createdAt: new Date().toLocaleString("tr-TR")
+        });
+        setItems("excuseRequests", items);
+        renderItems();
+        excuseForm.reset();
+        if (excuseDocumentName) {
+            excuseDocumentName.textContent = "Henüz belge seçilmedi.";
+        }
+        alert("Mazeret kaydı eklendi.");
+    });
+
+    const qrTimer = document.getElementById("qrTimer");
+    let countdownInterval;
+
+    generateQrBtn.addEventListener("click", async () => {
+        qrResult.innerHTML = "<p class='muted'>QR kod üretiliyor...</p>";
+        qrTimer.style.display = "none";
+        clearInterval(countdownInterval);
+
+        try {
+            const response = await fetch("/api/auth/qr/generate?studentId=@(currentUser?.StudentNumber ?? "misafir")&deviceId=turnike-01", {
+                method: "POST"
+            });
+
+            if (!response.ok) { throw new Error("qr_error"); }
+
+            const result = await response.json();
+            qrResult.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <img alt="QR Kod" style="width: 140px; height: 140px; object-fit: contain; margin-bottom: 24px; border: 4px solid white; border-radius: 12px; box-shadow: var(--shadow-md);" src="data:image/png;base64,${result.qrImageBase64}" />
+                    <p style="color: var(--slate-500); font-size: 0.85rem; font-weight: 500; margin: 0; white-space: nowrap;">Bu QR kod güvenli geçiş için üretilmiştir.</p>
+                </div>`;
+            
+            let timeLeft = 15;
+            qrTimer.innerText = `${timeLeft} sn`;
+            qrTimer.style.display = "block";
+            
+            countdownInterval = setInterval(() => {
+                timeLeft--;
+                qrTimer.innerText = `${timeLeft} sn`;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    qrResult.innerHTML = `<div class="local-empty" style="text-align: center;">QR Kod Süresi Doldu.</div>`;
+                    qrTimer.style.display = "none";
+                }
+            }, 1000);
+
+        } catch (e) {
+            console.error(e);
+            qrResult.innerHTML = `<div class="local-empty">QR kod üretilemedi.</div>`;
+        }
+    });
+
+    renderItems();
+</script>
