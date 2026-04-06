@@ -134,49 +134,6 @@ dotnet run --project src/Unisis.Web/Unisis.Web.csproj
 
 <hr>
 
-<h2>Demo Kullanıcılar</h2>
-
-<table border="1" cellpadding="5">
-    <tr>
-        <th>Öğrenci No</th>
-        <th>Şifre</th>
-    </tr>
-    <tr>
-        <td>132230015</td>
-        <td>merve</td>
-    </tr>
-    <tr>
-        <td>132530025</td>
-        <td>berkay</td>
-    </tr>
-    <tr>
-        <td>132530038</td>
-        <td>sena</td>
-    </tr>
-    <tr>
-        <td>132430002</td>
-        <td>mustafa</td>
-    </tr>
-</table>
-
-<hr>
-
-<h2>Klasör Yapısı</h2>
-<pre>
-src/
-  Unisis.Web/
-    Controllers/
-    Models/
-    Services/
-    Views/
-    wwwroot/
-
-docs/
-  architecture.md
-</pre>
-
-<hr>
-
 <h2>Gelecek Geliştirmeler</h2>
 <ul>
     <li>Gerçek dosya yükleme sistemi</li>
