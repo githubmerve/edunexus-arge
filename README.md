@@ -5,6 +5,17 @@ Edunexus, üniversite içi dijital süreçleri tek panelde toplayan modern bir k
 Öğrenci işlemleri, akademisyen müsaitlik takibi, kampüs bildirimleri ve yapay zeka destekli yönlendirme gibi modülleri tek bir sistemde sunar.
 </p>
 
+<p>
+Bu proje;
+<ul>
+  <li><a href="https://github.com/">Merve Subaşı</a></li>
+  <li><a href="https://github.com/132530025">Recep Berkay Ünsal</a></li>
+  <li><a href="https://github.com/mmustafa-kara">Muhammed Mustafa Kara</a></li>
+  <li><a href="https://github.com/ssenadogann">Sena Doğan</a></li>
+</ul>
+tarafından geliştirilmiştir.
+</p>
+
 <hr>
 
 <h2>Proje Amacı</h2>
@@ -70,6 +81,18 @@ Sistem içerisinde yer alan yapay zeka asistanı öğrenci sorularını yanıtla
     <li>OpenAI</li>
     <li>Ollama</li>
 </ul>
+
+<h2>Görüntüler</h2>
+<img width="900" height="400" alt="Giriş Ekranı" src="https://github.com/user-attachments/assets/759206e0-8306-4110-81cf-477716600471" />
+<img width="900" height="400" alt="Anasayfa" src="https://github.com/user-attachments/assets/7c8370fe-905d-4aa9-a922-3ff1c8a98bb7" />
+<img width="900" height="400" alt="Yapay Zeka Asistanı" src="https://github.com/user-attachments/assets/b1392080-37a0-437b-b1cd-74e4ab9873dd" />
+<img width="900" height="400" alt="Genel Sohbet" src="https://github.com/user-attachments/assets/29665353-1efc-4fa3-b1d3-8730b4d37d7d" />
+<img width="900" height="400" alt="Akademisyen Takvimi" src="https://github.com/user-attachments/assets/09e0d774-57d1-422a-969f-807ce263327d" />
+<img width="900" height="400" alt="Arıza Kaydı" src="https://github.com/user-attachments/assets/60274385-d5cf-4159-999f-de31bc3a28e5" />
+<img width="900" height="400" alt="Mazeret Takibi" src="https://github.com/user-attachments/assets/a9997272-6c3e-4471-b0bc-e8fe94070815" />
+<img width="900" height="400" alt="Qr kodu" src="https://github.com/user-attachments/assets/f41ebf32-acd5-49fb-9126-9be33439ec4c" />
+
+
 
 <hr>
 
