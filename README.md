@@ -91,6 +91,7 @@ Sistem içerisinde yer alan yapay zeka asistanı öğrenci sorularını yanıtla
 <img width="900" height="400" alt="Arıza Kaydı" src="https://github.com/user-attachments/assets/60274385-d5cf-4159-999f-de31bc3a28e5" />
 <img width="900" height="400" alt="Mazeret Takibi" src="https://github.com/user-attachments/assets/a9997272-6c3e-4471-b0bc-e8fe94070815" />
 <img width="900" height="400" alt="Qr kodu" src="https://github.com/user-attachments/assets/f41ebf32-acd5-49fb-9126-9be33439ec4c" />
+<img width="900" height="400" alt="QR Kodu Örneği" src="https://github.com/user-attachments/assets/973625be-d54f-4aa9-83e9-4de7d7a9f7f8" />
 
 
 
