@@ -142,6 +142,7 @@ cd &lt;repo-folder&gt;
 dotnet restore
 dotnet run --project src/Unisis.Web/Unisis.Web.csproj
 </pre>
+Tarayıcıda http://localhost:5000/
 
 <hr>
 
