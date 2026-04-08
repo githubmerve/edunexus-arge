@@ -157,6 +157,9 @@ Tarayıcıda http://localhost:5000/
 }
 </pre>
 
+<p>Gercek API anahtarlari repoya eklenmemelidir. Gelistirme icin <code>src/Unisis.Web/appsettings.Development.example.json</code> dosyasini temel alin ve <code>appsettings.Development.json</code> dosyasinda lokal olarak saklayin.</p>
+<p><code>bin/</code>, <code>obj/</code>, <code>appsettings.Development.json</code> ve servis hesap dosyalari git tarafinda ignore edilmelidir.</p>
+
 <hr>
 
 <h2>Gelecek Geliştirmeler</h2>

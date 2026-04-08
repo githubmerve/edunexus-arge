@@ -1,0 +1,4 @@
+**/bin/
+**/obj/
+src/Unisis.Web/appsettings.Development.json
+src/Unisis.Web/secrets/firebase-service-account.json

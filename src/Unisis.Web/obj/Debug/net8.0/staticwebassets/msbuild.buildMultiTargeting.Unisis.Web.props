@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Unisis.Web.props" />
-</Project>
